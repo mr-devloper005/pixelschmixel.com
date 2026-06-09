@@ -1,44 +1,76 @@
-/*
-  Editable global theme layer.
-
-  Safe for UI editors / AI tools:
-  - Full site background
-  - Global text color
-  - Selection color
-  - Scrollbar feel
-  - Article body typography accents
-
-  Do not add data fetching, scripts, or route logic here.
-*/
-
 body {
   background-color: var(--slot4-page-bg) !important;
   color: var(--slot4-page-text) !important;
-  background-image: var(--slot4-body-gradient) !important;
+  background-image:
+    radial-gradient(circle at top center, rgba(255, 255, 255, 0.08), transparent 24%),
+    var(--slot4-body-gradient) !important;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: "Baskerville", "Times New Roman", serif;
+}
+
+main {
+  position: relative;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 10% 15%, rgba(36, 177, 177, 0.08), transparent 15%),
+    radial-gradient(circle at 90% 20%, rgba(255, 224, 197, 0.25), transparent 18%);
+  pointer-events: none;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--slot4-accent-fill) 22%, transparent);
+  background: rgba(36, 177, 177, 0.24);
   color: var(--slot4-page-text);
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
 ::-webkit-scrollbar-track {
-  background: color-mix(in oklab, var(--slot4-page-bg) 88%, white);
+  background: rgba(12, 35, 76, 0.08);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--slot4-accent) 40%, transparent);
+  background: rgba(0, 121, 121, 0.48);
   border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.72);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--slot4-accent) 62%, transparent);
+  background: rgba(0, 121, 121, 0.72);
 }
 
-.article-content h2 {
-  color: var(--slot4-accent);
+.article-content {
+  color: rgba(16, 36, 79, 0.84);
+}
+
+.article-content h2,
+.article-content h3 {
+  color: var(--slot4-page-text);
+  font-family: "Baskerville", "Times New Roman", serif;
+}
+
+.article-content p + p {
+  margin-top: 1.1rem;
 }
 
 .article-content a {
+  color: var(--slot4-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 121, 121, 0.35);
+}
+
+.article-content a:hover {
   color: var(--slot4-accent-fill);
 }
