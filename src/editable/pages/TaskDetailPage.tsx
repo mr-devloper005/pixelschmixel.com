@@ -6,6 +6,7 @@ import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
+import { ProfileShareButton } from '@/editable/components/ProfileShareButton'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
 export const revalidate = 3
@@ -235,26 +236,99 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
 
 function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const images = getImages(post)
+  const heroImage = images[0] || '/placeholder.svg'
+  const galleryImages = images.length > 1 ? images.slice(1, 7) : [heroImage]
+  const website = getField(post, ['website', 'url', 'link'])
+  const author = post.authorName || asText(getContent(post).author) || SITE_CONFIG.name
+  const published = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''
+  const category = categoryOf(post, 'Image story')
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <BackLink task="image" />
-      <div className="mt-8 grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
-        <DetailFrame dark>
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--slot4-gold)]"><Camera className="h-4 w-4" /> Image story</div>
-          <h1 className="mt-6 font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em] sm:text-5xl">{post.title}</h1>
-          <p className="mt-5 text-base leading-8 text-white/74">{summaryText(post)}</p>
-          <BodyContent post={post} compact dark />
-        </DetailFrame>
-        <div className="columns-1 gap-5 space-y-5 md:columns-2">
-          {(images.length ? images : ['/placeholder.svg?height=900&width=1200']).map((image, index) => (
-            <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[2rem] border border-[#d8e1ef] bg-white shadow-[0_16px_40px_rgba(16,36,79,0.08)]">
-              <img src={image} alt={post.title} className="w-full object-cover" />
-              {index === 0 ? <figcaption className="p-5 text-sm font-semibold text-[#6a7891]">Featured visual from this image post.</figcaption> : null}
-            </figure>
-          ))}
+    <section className="bg-[#f3efe7]">
+      <div className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+        <BackLink task="image" />
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1.28fr_0.72fr]">
+          <div className="space-y-8">
+            <div className="overflow-hidden rounded-[2.6rem] border border-[#d8cfbf] bg-[#fbf8f1] shadow-[0_28px_70px_rgba(87,59,28,0.09)]">
+              <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+                <figure className="min-h-[420px] border-b border-[#d8cfbf] bg-[#e9e1d5] lg:min-h-[620px] lg:border-b-0 lg:border-r">
+                  <img src={heroImage} alt={post.title} className="h-full w-full object-cover" />
+                </figure>
+                <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10">
+                  <div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[#d8cfbf] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#8c5a2b]">
+                      <Camera className="h-4 w-4" />
+                      {category}
+                    </div>
+                    <h1 className="mt-5 font-serif text-4xl font-bold leading-[0.95] tracking-[-0.06em] text-[#1d3557] sm:text-5xl">{post.title}</h1>
+                  </div>
+
+                  <div className="mt-8 space-y-4">
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      
+                     
+                    </div>
+
+                    <div className="rounded-[1.6rem] border border-[#d8cfbf] bg-white p-5">
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8c5a2b]">Story brief</p>
+                      <BodyContent post={post} compact />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-[2.6rem] border border-[#d8cfbf] bg-[#fffdf8] p-5 shadow-[0_22px_60px_rgba(87,59,28,0.08)] sm:p-6 lg:p-8">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8c5a2b]">Image strip</p>
+                  <h2 className="mt-3 font-serif text-3xl font-bold tracking-[-0.05em] text-[#1d3557] sm:text-4xl">A studio-style layout with stacked frames.</h2>
+                </div>
+               
+              </div>
+
+              <div className="mt-8 grid gap-5">
+                {(images.length ? images : [heroImage]).map((image, index) => (
+                  <figure
+                    key={`${image}-${index}`}
+                    className={`grid gap-0 overflow-hidden rounded-[2rem] border border-[#d8cfbf] bg-white shadow-[0_16px_40px_rgba(87,59,28,0.08)] ${index % 2 === 0 ? 'lg:grid-cols-[1.2fr_0.8fr]' : 'lg:grid-cols-[0.8fr_1.2fr]'}`}
+                  >
+                    <img src={image} alt={`${post.title} image ${index + 1}`} className={`h-full min-h-[280px] w-full object-cover ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`} />
+                    <figcaption className={`flex flex-col justify-center p-6 lg:p-8 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#8c5a2b]">Frame {index + 1}</p>
+                      <h3 className="mt-3 font-serif text-2xl font-bold tracking-[-0.04em] text-[#1d3557]">{index === 0 ? 'Opening visual' : `Gallery moment ${index + 1}`}</h3>
+                      <p className="mt-3 text-sm leading-7 text-[#6f6a61]">
+                        {index === 0 ? 'The lead image establishes the tone of the post and gives the page a more gallery-like opening.' : 'Each image sits in its own presentation block so the page feels paced, deliberate, and easier to browse.'}
+                      </p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-[2.4rem] border border-[#d8cfbf] bg-[#1d3557] p-6 text-white shadow-[0_28px_70px_rgba(29,53,87,0.2)] sm:p-7 lg:sticky lg:top-24">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#f4c96b]">Collection notes</p>
+              <div className="mt-5 space-y-3">
+                <div className="rounded-[1.2rem] border border-white/12 bg-white/8 px-4 py-3">
+                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/55">Category</p>
+                  <p className="mt-2 font-black">{category}</p>
+                </div>
+                <div className="rounded-[1.2rem] border border-white/12 bg-white/8 px-4 py-3">
+                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/55">Author</p>
+                  <p className="mt-2 font-black">{author}</p>
+                </div>
+                
+              </div>
+
+             
+              <ContactAction website={website} dark />
+            </div>
+
+            
+            </div>
         </div>
       </div>
-      <div className="mt-10"><RelatedPanel task="image" post={post} related={related} /></div>
     </section>
   )
 }
@@ -310,22 +384,80 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const role = getField(post, ['role', 'designation', 'company', 'location'])
   const website = getField(post, ['website', 'url'])
   const email = getField(post, ['email'])
+  const summary = summaryText(post)
+  const memberId = `#${(post.id || post.slug).replace(/[^a-zA-Z0-9]/g, '').slice(0, 6) || '000001'}`
+  const navTabs = ['About']
   return (
-    <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-16">
-      <DetailFrame dark>
-        <BackLink task="profile" />
-        <div className="mx-auto mt-10 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full bg-white/10 ring-1 ring-white/12">
-          {images[0] ? <img src={images[0]} alt={post.title} className="h-full w-full object-cover" /> : <UserRound className="h-16 w-16 text-white/60" />}
+    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+      
+      <div className="mt-8 overflow-hidden rounded-[2.8rem] border border-[#d8e1ef] bg-white shadow-[0_28px_80px_rgba(16,36,79,0.12)]">
+        <div className="bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_68%,#f4f8fc_100%)] px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
+          <div className="grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+            <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-[#f57c00] text-white shadow-[0_18px_36px_rgba(245,124,0,0.24)]">
+              {images[0] ? <img src={images[0]} alt={post.title} className="h-full w-full object-cover" /> : <span className="text-5xl font-light">{post.title.charAt(0).toUpperCase() || 'P'}</span>}
+            </div>
+
+            <div>
+              <h1 className="font-serif text-4xl font-bold leading-[0.96] tracking-[-0.05em] text-[#173c78] sm:text-5xl">{post.title}</h1>
+              
+              
+            </div>
+
+            <div className="flex flex-wrap justify-start gap-3 lg:justify-end">
+              <ProfileShareButton />
+              <Link href="/login" className="rounded-full bg-[#ff6d57] px-8 py-4 text-sm font-black text-white shadow-[0_12px_30px_rgba(255,109,87,0.28)]">Follow</Link>
+            </div>
+          </div>
         </div>
-        <h1 className="mt-6 text-center font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em]">{post.title}</h1>
-        {role ? <p className="mt-3 text-center text-xs font-black uppercase tracking-[0.18em] text-[var(--slot4-gold)]">{role}</p> : null}
-        <ContactAction website={website} email={email} dark />
-      </DetailFrame>
-      <DetailFrame>
-        <BodyContent post={post} />
-        <ImageStrip images={images.slice(1)} label="Profile gallery" />
-        <RelatedPanel task="profile" post={post} related={related} />
-      </DetailFrame>
+
+        <div className="border-t border-[#e8eef5] px-6 py-5 sm:px-8 lg:px-10">
+          <div className="flex flex-wrap gap-3">
+            {navTabs.map((tab, index) => (
+              <span key={tab} className={`rounded-full px-4 py-2 text-sm font-semibold ${index === 0 ? 'bg-[#eef3f8] text-[#173c78]' : 'text-[#173c78]'}`}>
+                {tab}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="space-y-8">
+          <div className="rounded-[2.2rem] border border-[#d8e1ef] bg-white p-6 shadow-[0_18px_50px_rgba(16,36,79,0.08)] sm:p-8">
+            <h2 className="font-serif text-3xl font-bold tracking-[-0.04em] text-[#173c78]">About</h2>
+            <BodyContent post={post} />
+          </div>
+
+          {(website || email) ? (
+            <div className="rounded-[2.2rem] border border-[#d8e1ef] bg-white p-6 shadow-[0_18px_50px_rgba(16,36,79,0.08)] sm:p-8">
+              <h2 className="font-serif text-3xl font-bold tracking-[-0.04em] text-[#173c78]">Links</h2>
+              <div className="mt-6 grid gap-3">
+                {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 rounded-[1.2rem] border border-[#d8e1ef] bg-[#f8fbff] px-4 py-4 text-base font-semibold text-[#173c78]"><Globe2 className="h-5 w-5 text-[#007979]" /> Website</Link> : null}
+                {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-3 rounded-[1.2rem] border border-[#d8e1ef] bg-[#f8fbff] px-4 py-4 text-base font-semibold text-[#173c78]"><Mail className="h-5 w-5 text-[#007979]" /> {email}</a> : null}
+              </div>
+            </div>
+          ) : null}
+
+          
+        </div>
+
+        <aside className="space-y-6">
+          {images.slice(1).length ? (
+            <div className="rounded-[2.2rem] border border-[#d8e1ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,36,79,0.08)]">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#007979]">Profile gallery</p>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                {images.slice(1, 5).map((image, index) => <img key={`${image}-${index}`} src={image} alt={`${post.title} gallery ${index + 1}`} className="aspect-square rounded-[1.4rem] object-cover" />)}
+              </div>
+            </div>
+          ) : null}
+
+          <div className="rounded-[2.2rem] border border-[#d8e1ef] bg-[#173c78] p-6 text-white shadow-[0_22px_60px_rgba(16,36,79,0.16)]">
+           
+            <ContactAction website={website} email={email} dark />
+          </div>
+
+           </aside>
+      </div>
     </section>
   )
 }

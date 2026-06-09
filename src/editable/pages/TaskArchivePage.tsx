@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { ArrowRight, Bookmark, BriefcaseBusiness, Building2, Camera, Download, FileText, Filter, Image as ImageIcon, MapPin, Megaphone, Search, UserRound } from 'lucide-react'
+import { ArrowRight, Bookmark, BriefcaseBusiness, Building2, Camera, Download, FileText, Filter, Globe2, Image as ImageIcon, Mail, MapPin, Megaphone, Search, UserRound } from 'lucide-react'
 import { buildTaskMetadata } from '@/lib/seo'
 import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { fetchPaginatedTaskPosts, buildPostUrl } from '@/lib/task-data'
@@ -60,7 +60,7 @@ const taskDeck: Record<TaskKey, { icon: typeof FileText; archiveClass: string; p
   image: { icon: Camera, archiveClass: 'columns-1 gap-6 space-y-6 md:columns-2 xl:columns-3', promise: 'Gallery-first browsing puts visual impact ahead of interface noise.', badge: 'Gallery' },
   sbm: { icon: Bookmark, archiveClass: 'grid gap-6 md:grid-cols-2 xl:grid-cols-3', promise: 'Saved resources stay compact, crisp, and easy to scan quickly.', badge: 'Bookmark' },
   pdf: { icon: Download, archiveClass: 'grid gap-6 md:grid-cols-2 xl:grid-cols-3', promise: 'Document cards feel more like a library shelf than a plain article list.', badge: 'PDF' },
-  profile: { icon: UserRound, archiveClass: 'grid gap-6 md:grid-cols-2 xl:grid-cols-4', promise: 'Profile cards foreground identity, role, and trust cues immediately.', badge: 'Profile' },
+  profile: { icon: UserRound, archiveClass: 'grid gap-8 md:grid-cols-2 xl:grid-cols-2', promise: 'Profile cards foreground identity, role, and trust cues immediately.', badge: 'Profile' },
 }
 
 export async function EditableTaskArchiveRoute({
@@ -96,43 +96,97 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
     '--editable-container': '1280px',
   } as CSSProperties
   const categoryLabel = category === 'all' ? 'All categories' : CATEGORY_OPTIONS.find((item) => item.slug === category)?.name || category
+  const isProfileTask = task === 'profile'
 
   return (
     <EditableSiteShell>
       <main style={archiveVars} className="bg-[var(--archive-bg)] text-[var(--archive-text)]">
         <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-          <div className="grid gap-8 rounded-[2.8rem] bg-[linear-gradient(150deg,#173c78,#1f4e8f)] p-6 text-white shadow-[0_30px_90px_rgba(16,36,79,0.18)] lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--slot4-gold)]"><Icon className="h-4 w-4" /> {voice?.eyebrow || label}</div>
-              <h1 className="mt-5 max-w-4xl font-serif text-5xl font-bold leading-[0.94] tracking-[-0.06em] sm:text-6xl">{voice?.headline || `Browse ${label}`}</h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/75">{voice?.description || SITE_CONFIG.description}</p>
-              <div className="mt-6 rounded-[1.5rem] border border-white/12 bg-white/10 p-4 text-sm font-semibold leading-7 text-white/78">{deck.promise}</div>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={basePath} className="rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">Browse all</Link>
-                <Link href="/search" className="rounded-[0.8rem] border border-white/12 bg-white/8 px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-white">Search posts</Link>
-              </div>
-            </div>
+          {isProfileTask ? (
+            <div className="overflow-hidden rounded-[2.8rem] border border-[#d8e1ef] bg-white shadow-[0_30px_90px_rgba(16,36,79,0.12)]">
+              <div className="bg-[linear-gradient(135deg,#173c78,#1e4d8d_62%,#72c8e5)] px-6 py-8 text-white sm:px-8 lg:px-10 lg:py-10">
+                <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
+                  <div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--slot4-gold)]"><Icon className="h-4 w-4" /> {voice?.eyebrow || label}</div>
+                    <h1 className="mt-5 max-w-4xl font-serif text-5xl font-bold leading-[0.92] tracking-[-0.06em] sm:text-6xl">{voice?.headline || `Browse ${label}`}</h1>
+                    <p className="mt-5 max-w-2xl text-base leading-8 text-white/78">{voice?.description || SITE_CONFIG.description}</p>
+                    <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                      <div className="rounded-[1.4rem] border border-white/12 bg-white/10 p-4 backdrop-blur">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/56">Profiles</p>
+                        <p className="mt-3 font-serif text-3xl font-bold tracking-[-0.04em]">{pagination.total}</p>
+                      </div>
+                      <div className="rounded-[1.4rem] border border-white/12 bg-white/10 p-4 backdrop-blur">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/56">Category</p>
+                        <p className="mt-3 text-base font-black">{categoryLabel}</p>
+                      </div>
+                      <div className="rounded-[1.4rem] border border-white/12 bg-white/10 p-4 backdrop-blur">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/56">Pages</p>
+                        <p className="mt-3 text-base font-black">{pagination.totalPages || 1} available</p>
+                      </div>
+                    </div>
+                  </div>
 
-            <div className="self-end rounded-[2rem] border border-white/12 bg-white p-5 text-[#173c78] shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[#007979]"><Filter className="h-4 w-4" /> {voice?.filterLabel || 'Filter'}</div>
-              <form action={basePath} className="mt-4">
-                <select name="category" defaultValue={category} className="h-12 w-full rounded-[1rem] border border-[#d8e1ef] bg-[#f9fbff] px-4 text-sm font-bold outline-none">
-                  <option value="all">All categories</option>
-                  {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
-                </select>
-                <button className="mt-3 h-12 w-full rounded-[0.9rem] bg-[#173c78] text-sm font-black uppercase tracking-[0.12em] text-white">Apply</button>
-              </form>
-              <p className="mt-4 text-sm font-semibold text-[#6a7891]">Showing: {categoryLabel}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {voice?.chips?.map((chip) => <span key={chip} className="rounded-full border border-[#d8e1ef] px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#173c78]">{chip}</span>)}
+                  <div className="rounded-[2rem] border border-white/14 bg-white p-5 text-[#173c78] shadow-sm">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[#007979]"><Filter className="h-4 w-4" /> {voice?.filterLabel || 'Filter'}</div>
+                      <Link href="/search" className="text-xs font-black uppercase tracking-[0.16em] text-[#173c78]">Search posts</Link>
+                    </div>
+                    <form action={basePath} className="mt-4">
+                      <select name="category" defaultValue={category} className="h-12 w-full rounded-[1rem] border border-[#d8e1ef] bg-[#f9fbff] px-4 text-sm font-bold outline-none">
+                        <option value="all">All categories</option>
+                        {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
+                      </select>
+                      <button className="mt-3 h-12 w-full rounded-[0.9rem] bg-[#ff6d57] text-sm font-black uppercase tracking-[0.12em] text-white">Apply filters</button>
+                    </form>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {voice?.chips?.map((chip) => <span key={chip} className="rounded-full border border-[#d8e1ef] bg-[#f6f9fc] px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#173c78]">{chip}</span>)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-6 border-t border-[#d8e1ef] bg-[#f7fafc] px-6 py-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center lg:px-10">
+                <p className="text-sm leading-7 text-[#64738d]">{deck.promise}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href={basePath} className="rounded-[0.8rem] bg-[#173c78] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-white">Browse all</Link>
+                  <Link href="/create" className="rounded-[0.8rem] border border-[#d8e1ef] bg-white px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">Create profile</Link>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="grid gap-8 rounded-[2.8rem] bg-[linear-gradient(150deg,#173c78,#1f4e8f)] p-6 text-white shadow-[0_30px_90px_rgba(16,36,79,0.18)] lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--slot4-gold)]"><Icon className="h-4 w-4" /> {voice?.eyebrow || label}</div>
+                <h1 className="mt-5 max-w-4xl font-serif text-5xl font-bold leading-[0.94] tracking-[-0.06em] sm:text-6xl">{voice?.headline || `Browse ${label}`}</h1>
+                <p className="mt-6 max-w-2xl text-base leading-8 text-white/75">{voice?.description || SITE_CONFIG.description}</p>
+                <div className="mt-6 rounded-[1.5rem] border border-white/12 bg-white/10 p-4 text-sm font-semibold leading-7 text-white/78">{deck.promise}</div>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link href={basePath} className="rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">Browse all</Link>
+                  <Link href="/search" className="rounded-[0.8rem] border border-white/12 bg-white/8 px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-white">Search posts</Link>
+                </div>
+              </div>
+
+              <div className="self-end rounded-[2rem] border border-white/12 bg-white p-5 text-[#173c78] shadow-sm">
+                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[#007979]"><Filter className="h-4 w-4" /> {voice?.filterLabel || 'Filter'}</div>
+                <form action={basePath} className="mt-4">
+                  <select name="category" defaultValue={category} className="h-12 w-full rounded-[1rem] border border-[#d8e1ef] bg-[#f9fbff] px-4 text-sm font-bold outline-none">
+                    <option value="all">All categories</option>
+                    {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
+                  </select>
+                  <button className="mt-3 h-12 w-full rounded-[0.9rem] bg-[#173c78] text-sm font-black uppercase tracking-[0.12em] text-white">Apply</button>
+                </form>
+                <p className="mt-4 text-sm font-semibold text-[#6a7891]">Showing: {categoryLabel}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {voice?.chips?.map((chip) => <span key={chip} className="rounded-full border border-[#d8e1ef] px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#173c78]">{chip}</span>)}
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="mx-auto max-w-[var(--editable-container)] px-4 pb-16 sm:px-6 lg:px-8">
           {posts.length ? (
-            <div className={deck.archiveClass}>
+            <div className={isProfileTask ? 'grid gap-8 md:grid-cols-2 xl:grid-cols-2' : deck.archiveClass}>
               {posts.map((post, index) => <ArchivePostCard key={post.id || post.slug} post={post} task={task} basePath={basePath} index={index} />)}
             </div>
           ) : (
@@ -283,14 +337,41 @@ function PdfArchiveCard({ post, href }: { post: SitePost; href: string }) {
 function ProfileArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const avatar = getImages(post)[0]
   const role = getField(post, ['role', 'designation', 'company', 'location'])
+  const website = getField(post, ['website', 'url'])
+  const email = getField(post, ['email'])
+  const location = getField(post, ['location', 'address', 'city'])
   return (
-    <Link href={href} className="group rounded-[2rem] border border-[#d8e1ef] bg-white p-6 text-center shadow-[0_16px_40px_rgba(16,36,79,0.08)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(16,36,79,0.14)]">
-      <div className="mx-auto flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-[#eef3f8] ring-1 ring-[#d8e1ef]">
-        {avatar ? <img src={avatar} alt={post.title} className="h-full w-full object-cover" /> : <UserRound className="h-10 w-10 text-[#6a7891]" />}
+    <Link href={href} className="group overflow-hidden rounded-[2.4rem] border border-[#d8e1ef] bg-white shadow-[0_20px_55px_rgba(16,36,79,0.1)] transition hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(16,36,79,0.16)]">
+      <div className="relative h-36 bg-[linear-gradient(135deg,#173c78,#1f4e8f_62%,#72c8e5)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_28%)]" />
+        <div className="absolute left-6 top-1/2 flex h-24 w-24 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#eef3f8] shadow-[0_14px_30px_rgba(16,36,79,0.2)]">
+          {avatar ? <img src={avatar} alt={post.title} className="h-full w-full object-cover" /> : <UserRound className="h-10 w-10 text-[#6a7891]" />}
+        </div>
+        <div className="absolute right-6 top-6 rounded-full bg-white/14 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white">Profile</div>
       </div>
-      <h2 className="mt-5 font-serif text-2xl font-bold leading-tight tracking-[-0.04em] text-[#173c78]">{post.title}</h2>
-      {role ? <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[#007979]">{role}</p> : null}
-      <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#6a7891]">{getSummary(post)}</p>
+
+      <div className="p-6">
+        <div className="pl-[7.4rem] md:pl-[7.6rem]">
+          <h2 className="font-serif text-3xl font-bold leading-tight tracking-[-0.04em] text-[#173c78]">{post.title}</h2>
+          {role ? <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[#007979]">{role}</p> : null}
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {website ? <div className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8e1ef] bg-[#f7fafc] px-4 py-3 text-sm font-semibold text-[#173c78]"><Globe2 className="h-4 w-4 text-[#007979]" /> <span className="truncate">{website.replace(/^https?:\/\//, '')}</span></div> : null}
+          {email ? <div className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8e1ef] bg-[#f7fafc] px-4 py-3 text-sm font-semibold text-[#173c78]"><Mail className="h-4 w-4 text-[#007979]" /> <span className="truncate">{email}</span></div> : null}
+          {location ? <div className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8e1ef] bg-[#f7fafc] px-4 py-3 text-sm font-semibold text-[#173c78] sm:col-span-2"><MapPin className="h-4 w-4 text-[#007979]" /> <span className="truncate">{location}</span></div> : null}
+        </div>
+
+        <p className="mt-5 line-clamp-3 text-sm leading-7 text-[#6a7891]">{getSummary(post)}</p>
+
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="flex gap-2">
+            <span className="rounded-full bg-[#eef3f8] px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#173c78]">About</span>
+            <span className="rounded-full bg-[#fff3ef] px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#ff6d57]">Links</span>
+          </div>
+          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-[#173c78]">View profile <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+        </div>
+      </div>
     </Link>
   )
 }

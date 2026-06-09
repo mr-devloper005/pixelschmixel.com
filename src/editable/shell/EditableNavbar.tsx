@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown, LogIn, Menu, Search, UserPlus, X } from 'lucide-react'
@@ -11,6 +11,7 @@ import { useEditableLocalAuthSession } from '@/editable/components/EditableLocal
 export function EditableNavbar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { session, logout } = useEditableLocalAuthSession()
   const navItems = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled).slice(0, 3), [])
   const navVars = {
@@ -20,6 +21,12 @@ export function EditableNavbar() {
     '--editable-border': 'rgba(255,255,255,0.16)',
     '--editable-container': '1280px',
   } as CSSProperties
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const resolvedSession = mounted ? session : null
 
   return (
     <header style={navVars} className="sticky top-0 z-50 border-b border-[var(--editable-border)] bg-[var(--editable-nav-bg)]/95 text-[var(--editable-nav-text)] backdrop-blur-xl">
@@ -49,9 +56,9 @@ export function EditableNavbar() {
         </form>
 
         <div className="hidden items-center gap-3 md:flex">
-          {session ? (
+          {resolvedSession ? (
             <>
-              <span className="rounded-[0.8rem] border border-white/16 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/80">{session.name}</span>
+              <span className="rounded-[0.8rem] border border-white/16 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/80">{resolvedSession.name}</span>
               <button type="button" onClick={logout} className="rounded-[0.8rem] border border-[var(--slot4-gold)] px-5 py-2.5 text-sm font-black uppercase tracking-[0.08em] text-[var(--slot4-gold)]">
                 Sign out
               </button>
@@ -90,7 +97,7 @@ export function EditableNavbar() {
                 </Link>
               )
             })}
-            {session ? (
+            {resolvedSession ? (
               <button type="button" onClick={() => { logout(); setOpen(false) }} className="rounded-[1rem] border border-white/10 bg-white/5 px-4 py-3 text-left text-sm font-black uppercase tracking-[0.08em]">
                 Sign out
               </button>
