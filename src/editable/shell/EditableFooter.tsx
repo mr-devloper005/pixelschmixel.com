@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Mail, PinIcon, Play, Twitter } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
@@ -8,8 +9,15 @@ import { useEditableLocalAuthSession } from '@/editable/components/EditableLocal
 
 export function EditableFooter() {
   const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled).slice(0, 4)
-  const year = new Date().getFullYear()
+  const [mounted, setMounted] = useState(false)
   const { session, logout } = useEditableLocalAuthSession()
+  const year = new Date().getUTCFullYear()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const resolvedSession = mounted ? session : null
 
   return (
     <footer className="border-t border-[#cbd7ea] bg-[#173c78] text-white">
@@ -36,7 +44,7 @@ export function EditableFooter() {
             <Link href="/" className="text-sm font-bold text-white/80 hover:text-white">Home</Link>
             <Link href="/about" className="text-sm font-bold text-white/80 hover:text-white">About</Link>
             <Link href="/contact" className="text-sm font-bold text-white/80 hover:text-white">Contact</Link>
-            {session ? <button type="button" onClick={logout} className="text-left text-sm font-bold text-white/80 hover:text-white">Logout</button> : <Link href="/login" className="text-sm font-bold text-white/80 hover:text-white">Sign in</Link>}
+            {resolvedSession ? <button type="button" onClick={logout} className="text-left text-sm font-bold text-white/80 hover:text-white">Logout</button> : <Link href="/login" className="text-sm font-bold text-white/80 hover:text-white">Sign in</Link>}
           </div>
         </div>
 
@@ -44,7 +52,7 @@ export function EditableFooter() {
         <div>
           <h3 className="text-xs font-black uppercase tracking-[0.24em] text-white/55">Access</h3>
           <div className="mt-5 grid gap-3">
-            {!session ? <Link href="/signup" className="text-sm font-bold text-white/80 hover:text-white">Register</Link> : null}
+            {!resolvedSession ? <Link href="/signup" className="text-sm font-bold text-white/80 hover:text-white">Register</Link> : null}
             <Link href="/search" className="text-sm font-bold text-white/80 hover:text-white">Search</Link>
             <Link href="/create" className="text-sm font-bold text-white/80 hover:text-white">Create</Link>
           </div>
