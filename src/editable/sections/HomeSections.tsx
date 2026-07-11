@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Check, Search } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { HomeTimeSection } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
@@ -13,10 +13,6 @@ type HomeSectionProps = {
   primaryRoute: string
   posts: SitePost[]
   timeSections: HomeTimeSection[]
-}
-
-function taskLabel(task: TaskKey) {
-  return SITE_CONFIG.tasks.find((item) => item.key === task)?.label || task
 }
 
 function AvatarBubble({ index, title }: { index: number; title: string }) {
@@ -90,20 +86,6 @@ function BenefitRow({ title, body, imageSrc, reverse = false }: { title: string;
         <h3 className="font-serif text-4xl font-bold tracking-[-0.04em] text-[#173c78]">{title}</h3>
         <p className="mt-4 max-w-xl text-base leading-8 text-[#64738d]">{body}</p>
       </div>
-    </div>
-  )
-}
-
-function StepCard({ step, title, body, imageSrc }: { step: string; title: string; body: string; imageSrc: string }) {
-  return (
-    <div className="text-center">
-      <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-t-full border border-[#d6dfef] bg-white shadow-sm">
-        <img src={imageSrc} alt={title} className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(23,60,120,0.18))]" />
-        <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#ff6262] text-lg font-black text-white">{step}</div>
-      </div>
-      <h3 className="mt-5 text-2xl font-black tracking-[-0.04em] text-[#173c78]">{title}</h3>
-      <p className="mx-auto mt-3 max-w-[250px] text-sm leading-7 text-[#6b7890]">{body}</p>
     </div>
   )
 }

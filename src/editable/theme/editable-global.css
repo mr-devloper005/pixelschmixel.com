@@ -55,6 +55,10 @@ main::before {
   color: rgba(16, 36, 79, 0.84);
 }
 
+.article-content.text-white\/78 {
+  color: rgba(255, 255, 255, 0.78);
+}
+
 .article-content h2,
 .article-content h3 {
   color: var(--slot4-page-text);
