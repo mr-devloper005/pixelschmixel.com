@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { Mail, PinIcon, Play, Twitter } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 export function EditableFooter() {
-  const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled).slice(0, 4)
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
 
