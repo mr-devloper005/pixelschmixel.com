@@ -249,7 +249,7 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
         <DetailFrame dark>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--slot4-gold)]"><Camera className="h-4 w-4" /> Image story</div>
           <h1 className="mt-6 font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em] sm:text-5xl">{post.title}</h1>
-          <p className="mt-5 text-base leading-8 text-white/74">{summaryText(post)}</p>
+                                      
           <BodyContent post={post} compact dark />
         </DetailFrame>
         <div className="columns-1 gap-5 space-y-5 md:columns-2">
