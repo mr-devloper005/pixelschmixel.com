@@ -112,11 +112,11 @@ const mapSrcFor = (post: SitePost) => {
 
 export function TaskDetailView({ task, post, related, comments = [] }: { task: TaskKey; post: SitePost; related: SitePost[]; comments?: Array<{ id: string; name: string; comment: string; createdAt: string }> }) {
   const detailVars = {
-    '--detail-bg': '#f7f4ef',
-    '--detail-text': '#173c78',
+    '--detail-bg': '#f6f1eb',
+    '--detail-text': '#10244f',
     '--detail-surface': '#ffffff',
     '--detail-accent': '#007979',
-    '--editable-border': '#d8e1ef',
+    '--editable-border': '#d4deef',
     '--editable-container': '1280px',
   } as CSSProperties
 
@@ -138,7 +138,7 @@ export function TaskDetailView({ task, post, related, comments = [] }: { task: T
 function BackLink({ task }: { task: TaskKey }) {
   const taskConfig = getTaskConfig(task)
   return (
-    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-2 rounded-[0.8rem] border border-[#d8e1ef] bg-white px-4 py-2 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">
+    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-2 rounded-[0.8rem] border border-[#d4deef] bg-white px-4 py-2 text-sm font-black uppercase tracking-[0.08em] text-[#10244f]">
       <ArrowLeft className="h-4 w-4" /> Back to {taskConfig?.label || 'posts'}
     </Link>
   )
@@ -146,7 +146,7 @@ function BackLink({ task }: { task: TaskKey }) {
 
 function DetailFrame({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <div className={`rounded-[2.6rem] border p-6 shadow-[0_30px_90px_rgba(16,36,79,0.09)] sm:p-8 lg:p-10 ${dark ? 'border-white/12 bg-[linear-gradient(150deg,#173c78,#1f4e8f)] text-white' : 'border-[#d8e1ef] bg-white text-[#173c78]'}`}>
+    <div className={`rounded-[2.2rem] border p-6 shadow-[0_30px_90px_rgba(16,36,79,0.12)] sm:p-8 lg:p-10 ${dark ? 'border-white/12 bg-[linear-gradient(150deg,#173c78,#1f4e8f)] text-white' : 'border-[#d4deef] bg-white text-[#10244f]'}`}>
       {children}
     </div>
   )
@@ -183,13 +183,13 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
       <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
         <DetailFrame>
           <div className="grid gap-6 sm:grid-cols-[150px_1fr]">
-            <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-[2rem] bg-[#eef3f8] ring-1 ring-[#d8e1ef]">
-              {logo ? <img src={logo} alt={post.title} className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 text-[#6a7891]" />}
+            <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-[2rem] bg-[#dfe6f0] ring-1 ring-[#d4deef]">
+              {logo ? <img src={logo} alt={post.title} className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 text-[#55637f]" />}
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[#007979]">Business listing</p>
               <h1 className="mt-3 font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-[#6a7891]">{summaryText(post)}</p>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-[#55637f]">{summaryText(post)}</p>
             </div>
           </div>
           <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
@@ -226,7 +226,7 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
           {location ? <BadgeLine label="Location" value={location} /> : null}
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          {phone ? <a href={`tel:${phone}`} className="rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">Call now</a> : null}
+          {phone ? <a href={`tel:${phone}`} className="rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#10244f]">Call now</a> : null}
           {email ? <a href={`mailto:${email}`} className="rounded-[0.8rem] border border-white/18 px-5 py-3 text-sm font-black uppercase tracking-[0.08em]">Email</a> : null}
         </div>
       </DetailFrame>
@@ -254,9 +254,9 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
         </DetailFrame>
         <div className="columns-1 gap-5 space-y-5 md:columns-2">
           {(images.length ? images : ['/placeholder.svg?height=900&width=1200']).map((image, index) => (
-            <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[2rem] border border-[#d8e1ef] bg-white shadow-[0_16px_40px_rgba(16,36,79,0.08)]">
+            <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[2rem] border border-[#d4deef] bg-white shadow-[0_16px_40px_rgba(16,36,79,0.12)]">
               <img src={image} alt={post.title} className="w-full object-cover" />
-              {index === 0 ? <figcaption className="p-5 text-sm font-semibold text-[#6a7891]">Featured visual from this image post.</figcaption> : null}
+              {index === 0 ? <figcaption className="p-5 text-sm font-semibold text-[#55637f]">Featured visual from this image post.</figcaption> : null}
             </figure>
           ))}
         </div>
@@ -274,8 +274,8 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
         <BackLink task="sbm" />
         <div className="mt-10 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[#173c78] text-white"><Bookmark className="h-9 w-9" /></div>
         <h1 className="mt-7 font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em] sm:text-6xl">{post.title}</h1>
-        <p className="mt-5 max-w-3xl text-lg leading-9 text-[#6a7891]">{summaryText(post)}</p>
-        {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#173c78]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
+        <p className="mt-5 max-w-3xl text-lg leading-9 text-[#55637f]">{summaryText(post)}</p>
+        {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-[0.8rem] bg-[var(--slot4-gold)] px-5 py-3 text-sm font-black uppercase tracking-[0.08em] text-[#10244f]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
         <BodyContent post={post} />
       </DetailFrame>
       <RelatedPanel task="sbm" post={post} related={related} />
@@ -290,7 +290,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
       <DetailFrame>
         <BackLink task="pdf" />
         <div className="mt-8 grid gap-6 sm:grid-cols-[120px_1fr]">
-          <div className="flex h-28 w-28 items-center justify-center rounded-[1.8rem] bg-[#173c78] text-white"><FileText className="h-12 w-12" /></div>
+          <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] bg-[#173c78] text-white"><FileText className="h-12 w-12" /></div>
           <div>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[#007979]">PDF resource</p>
             <h1 className="mt-3 font-serif text-4xl font-bold leading-[0.98] tracking-[-0.06em] sm:text-6xl">{post.title}</h1>
@@ -298,8 +298,8 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
         </div>
         <BodyContent post={post} />
         {fileUrl ? (
-          <div className="mt-8 overflow-hidden rounded-[2rem] border border-[#d8e1ef] bg-[#f3f7fb]">
-            <div className="flex items-center justify-between gap-3 border-b border-[#d8e1ef] bg-white p-4">
+          <div className="mt-8 overflow-hidden rounded-[2rem] border border-[#d4deef] bg-[#f6f7fb]">
+            <div className="flex items-center justify-between gap-3 border-b border-[#d4deef] bg-white p-4">
               <span className="text-sm font-black">Document preview</span>
               <Link href={fileUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-[0.8rem] bg-[#173c78] px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-white">Download <Download className="h-4 w-4" /></Link>
             </div>
@@ -347,9 +347,9 @@ function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) 
   return (
     <div className="mt-8 grid gap-3 sm:grid-cols-2">
       {visible.map(([label, value, Icon]) => (
-        <div key={label} className="rounded-[1.5rem] border border-[#d8e1ef] bg-[#f7fafc] p-4">
+        <div key={label} className="rounded-[2rem] border border-[#d4deef] bg-[#f6f7fb] p-4">
           <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-[#007979]"><Icon className="h-4 w-4" /> {label}</div>
-          <p className="mt-2 break-words text-sm font-bold leading-6 text-[#173c78]">{value}</p>
+          <p className="mt-2 break-words text-sm font-bold leading-6 text-[#10244f]">{value}</p>
         </div>
       ))}
     </div>
@@ -362,7 +362,7 @@ function ImageStrip({ images, label, large = false }: { images: string[]; label:
     <section className="mt-8">
       <p className="text-xs font-black uppercase tracking-[0.22em] text-[#007979]">{label}</p>
       <div className={`mt-4 grid gap-3 ${large ? 'sm:grid-cols-2' : 'grid-cols-2 sm:grid-cols-4'}`}>
-        {images.slice(0, large ? 4 : 8).map((image, index) => <img key={`${image}-${index}`} src={image} alt={label} className="aspect-[4/3] rounded-[1.4rem] object-cover ring-1 ring-[#d8e1ef]" />)}
+        {images.slice(0, large ? 4 : 8).map((image, index) => <img key={`${image}-${index}`} src={image} alt={label} className="aspect-[4/3] rounded-[2rem] object-cover ring-1 ring-[#d4deef]" />)}
       </div>
     </section>
   )
@@ -370,8 +370,8 @@ function ImageStrip({ images, label, large = false }: { images: string[]; label:
 
 function MapBox({ src, label }: { src: string; label: string }) {
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-[#d8e1ef] bg-white shadow-[0_16px_40px_rgba(16,36,79,0.08)]">
-      <div className="flex items-center gap-2 p-4 text-sm font-black text-[#173c78]"><MapPin className="h-4 w-4 text-[#007979]" /> {label || 'Map location'}</div>
+    <div className="overflow-hidden rounded-[2rem] border border-[#d4deef] bg-white shadow-[0_16px_40px_rgba(16,36,79,0.12)]">
+      <div className="flex items-center gap-2 p-4 text-sm font-black text-[#10244f]"><MapPin className="h-4 w-4 text-[#007979]" /> {label || 'Map location'}</div>
       <iframe src={src} title="Map" loading="lazy" className="h-80 w-full border-0" />
     </div>
   )
@@ -380,19 +380,19 @@ function MapBox({ src, label }: { src: string; label: string }) {
 function ContactAction({ website, phone, email, dark = false }: { website?: string; phone?: string; email?: string; dark?: boolean }) {
   if (!website && !phone && !email) return null
   return (
-    <div className={`mt-5 rounded-[2rem] border p-5 shadow-sm ${dark ? 'border-white/12 bg-white/8 text-white' : 'border-[#d8e1ef] bg-white text-[#173c78]'}`}>
+    <div className={`mt-5 rounded-[2rem] border p-5 shadow-sm ${dark ? 'border-white/12 bg-white/8 text-white' : 'border-[#d4deef] bg-white text-[#10244f]'}`}>
       <p className={`text-xs font-black uppercase tracking-[0.22em] ${dark ? 'text-[var(--slot4-gold)]' : 'text-[#007979]'}`}>Quick actions</p>
       <div className="mt-4 flex flex-wrap gap-3">
-        {website ? <Link href={website} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-[0.8rem] px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'bg-[var(--slot4-gold)] text-[#173c78]' : 'bg-[#173c78] text-white'}`}>Website <ExternalLink className="h-4 w-4" /></Link> : null}
-        {phone ? <a href={`tel:${phone}`} className={`inline-flex items-center gap-2 rounded-[0.8rem] border px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'border-white/18' : 'border-[#d8e1ef]'}`}><Phone className="h-4 w-4" /> Call</a> : null}
-        {email ? <a href={`mailto:${email}`} className={`inline-flex items-center gap-2 rounded-[0.8rem] border px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'border-white/18' : 'border-[#d8e1ef]'}`}><Mail className="h-4 w-4" /> Email</a> : null}
+        {website ? <Link href={website} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-[0.8rem] px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'bg-[var(--slot4-gold)] text-[#10244f]' : 'bg-[#173c78] text-white'}`}>Website <ExternalLink className="h-4 w-4" /></Link> : null}
+        {phone ? <a href={`tel:${phone}`} className={`inline-flex items-center gap-2 rounded-[0.8rem] border px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'border-white/18' : 'border-[#d4deef]'}`}><Phone className="h-4 w-4" /> Call</a> : null}
+        {email ? <a href={`mailto:${email}`} className={`inline-flex items-center gap-2 rounded-[0.8rem] border px-4 py-2 text-sm font-black uppercase tracking-[0.08em] ${dark ? 'border-white/18' : 'border-[#d4deef]'}`}><Mail className="h-4 w-4" /> Email</a> : null}
       </div>
     </div>
   )
 }
 
 function BadgeLine({ label, value }: { label: string; value: string }) {
-  return <div className="flex items-center justify-between gap-4 rounded-[1rem] border border-white/14 bg-white/10 px-4 py-3 text-sm"><span className="font-black uppercase tracking-[0.16em] text-white/60">{label}</span><span className="font-black">{value}</span></div>
+  return <div className="flex items-center justify-between gap-4 rounded-[0.8rem] border border-white/14 bg-white/10 px-4 py-3 text-sm"><span className="font-black uppercase tracking-[0.16em] text-white/60">{label}</span><span className="font-black">{value}</span></div>
 }
 
 function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey; post: SitePost; related: SitePost[]; compact?: boolean }) {
@@ -400,9 +400,9 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
   return (
     <aside className="min-w-0 space-y-5">
       {!compact ? (
-        <div className="rounded-[2rem] border border-[#d8e1ef] bg-white p-5">
+        <div className="rounded-[2rem] border border-[#d4deef] bg-white p-5">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#007979]">About this post</p>
-          <div className="mt-4 grid gap-3 text-sm font-bold text-[#6a7891]">
+          <div className="mt-4 grid gap-3 text-sm font-bold text-[#55637f]">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4 text-[#007979]" /> Task: {taskConfig?.label || task}</p>
             <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[#007979]" /> Site: {SITE_CONFIG.name}</p>
             {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
@@ -410,7 +410,7 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
         </div>
       ) : null}
       {related.length ? (
-        <div className="rounded-[2rem] border border-[#d8e1ef] bg-white p-5">
+        <div className="rounded-[2rem] border border-[#d4deef] bg-white p-5">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-serif text-2xl font-bold tracking-[-0.04em]">More like this</h2>
             <Link href={taskConfig?.route || '/'} className="text-xs font-black uppercase tracking-[0.16em] text-[#007979]">View all</Link>
@@ -427,11 +427,11 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
 function RelatedCard({ task, post }: { task: TaskKey; post: SitePost }) {
   const image = getImages(post)[0]
   return (
-    <Link href={buildPostUrl(task, post.slug)} className="group flex gap-3 rounded-[1.4rem] border border-[#d8e1ef] bg-[#f9fbff] p-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-      {image && task !== 'sbm' ? <img src={image} alt={post.title} className="h-20 w-20 shrink-0 rounded-xl object-cover" /> : <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-[#eef3f8]"><FileText className="h-6 w-6 text-[#6a7891]" /></div>}
+    <Link href={buildPostUrl(task, post.slug)} className="group flex gap-3 rounded-[2rem] border border-[#d4deef] bg-[#f6f7fb] p-3 transition hover:-translate-y-0.5 hover:shadow-lg">
+      {image && task !== 'sbm' ? <img src={image} alt={post.title} className="h-20 w-20 shrink-0 rounded-xl object-cover" /> : <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-[#dfe6f0]"><FileText className="h-6 w-6 text-[#55637f]" /></div>}
       <div className="min-w-0">
-        <h3 className="line-clamp-3 text-sm font-black leading-tight tracking-[-0.03em] text-[#173c78]">{post.title}</h3>
-        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6a7891]">{summaryText(post)}</p>
+        <h3 className="line-clamp-3 text-sm font-black leading-tight tracking-[-0.03em] text-[#10244f]">{post.title}</h3>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#55637f]">{summaryText(post)}</p>
       </div>
     </Link>
   )
@@ -439,16 +439,16 @@ function RelatedCard({ task, post }: { task: TaskKey; post: SitePost }) {
 
 function EditableComments({ slug, comments }: { slug: string; comments: Array<{ id: string; name: string; comment: string; createdAt: string }> }) {
   return (
-    <section className="mt-10 rounded-[2rem] border border-[#d8e1ef] bg-[#f9fbff] p-5">
-      <div className="flex items-center gap-2 font-serif text-2xl font-bold text-[#173c78]"><MessageCircle className="h-5 w-5 text-[#007979]" /> Comments</div>
+    <section className="mt-10 rounded-[2rem] border border-[#d4deef] bg-[#f6f7fb] p-5">
+      <div className="flex items-center gap-2 font-serif text-2xl font-bold text-[#10244f]"><MessageCircle className="h-5 w-5 text-[#007979]" /> Comments</div>
       <div className="mt-5 grid gap-3">
         {comments.slice(0, 5).map((comment) => (
-          <div key={comment.id} className="rounded-[1.4rem] border border-[#d8e1ef] bg-white p-4">
-            <p className="text-sm font-black text-[#173c78]">{comment.name}</p>
-            <p className="mt-2 text-sm leading-6 text-[#6a7891]">{comment.comment}</p>
+          <div key={comment.id} className="rounded-[2rem] border border-[#d4deef] bg-white p-4">
+            <p className="text-sm font-black text-[#10244f]">{comment.name}</p>
+            <p className="mt-2 text-sm leading-6 text-[#55637f]">{comment.comment}</p>
           </div>
         ))}
-        {!comments.length ? <p className="text-sm text-[#6a7891]">No comments yet for {slug}.</p> : null}
+        {!comments.length ? <p className="text-sm text-[#55637f]">No comments yet for {slug}.</p> : null}
       </div>
     </section>
   )
