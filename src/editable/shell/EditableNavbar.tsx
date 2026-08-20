@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LogIn, Menu, Search, UserPlus, X } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 export function EditableNavbar() {
@@ -25,12 +24,8 @@ export function EditableNavbar() {
     <header style={navVars} className="sticky top-0 z-50 border-b border-[var(--editable-border)] bg-[var(--editable-nav-bg)]/95 text-[var(--editable-nav-text)] backdrop-blur-xl">
       <nav className="mx-auto flex min-h-[92px] w-full max-w-[var(--editable-container)] items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-3">
-          
-            <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-9 w-9 object-contain" />
-          <span className="hidden sm:block">
-            <span className="block text-[2rem] font-black tracking-[-0.05em] leading-none">{SITE_CONFIG.name.toLowerCase()}</span>
-            <span className="block text-[10px] font-black uppercase tracking-[0.24em] text-[var(--editable-nav-muted)]">{globalContent.nav.tagline}</span>
-          </span>
+          <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-8 w-8 object-contain" />
+          <span className="hidden text-[2rem] font-black tracking-[-0.05em] leading-none sm:block">{SITE_CONFIG.name.toLowerCase()}</span>
         </Link>
 
         <div className="ml-auto hidden items-center gap-8 lg:flex">
