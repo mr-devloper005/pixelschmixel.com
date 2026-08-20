@@ -69,7 +69,7 @@ export function EditableArticleDetailShell({ slug, post }: { slug: string; post:
       </section>
       <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pb-24">
         <div className={`rounded-[2.25rem] border ${pal.border} bg-white p-6 shadow-[0_24px_80px_rgba(24,20,17,0.08)] sm:p-8 lg:p-10`}>
-          <p className={`text-sm leading-8 ${pal.softMutedText}`}>{post?.summary || `Article detail content for ${slug} will render through the editable detail page.`}</p>
+          <p className={`text-sm leading-8 ${pal.softMutedText}`}>{post?.summary ? post.summary.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() : `Article detail content for ${slug} will render through the editable detail page.`}</p>
         </div>
       </section>
     </main>

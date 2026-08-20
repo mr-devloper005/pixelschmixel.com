@@ -15,15 +15,15 @@ const lanes = [
 export default function ContactPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] px-4 py-14 text-[#173c78] sm:px-6 lg:px-8">
+      <main className="bg-[#f6f1eb] px-4 py-14 text-[#10244f] sm:px-6 lg:px-8">
         <section className="mx-auto grid max-w-[1280px] gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[2.4rem] bg-[linear-gradient(160deg,#173c78,#1e4e8e)] p-8 text-white shadow-[0_28px_70px_rgba(16,36,79,0.2)] lg:p-10">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--slot4-gold)]">{pagesContent.contact.eyebrow}</p>
+          <div className="rounded-[2.2rem] bg-[#173c78] p-8 text-white shadow-[0_28px_80px_rgba(7,20,53,0.24)] lg:p-10">
+            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[var(--slot4-gold)]">{pagesContent.contact.eyebrow}</p>
             <h1 className="mt-5 font-serif text-5xl font-bold tracking-[-0.05em]">{pagesContent.contact.title}</h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-white/78">{pagesContent.contact.description}</p>
             <div className="mt-8 grid gap-4">
               {lanes.map((lane, index) => (
-                <div key={lane.title} className={`rounded-[1.8rem] border p-5 ${index === 1 ? 'border-white/10 bg-white/14' : 'border-white/10 bg-white/8'}`}>
+                <div key={lane.title} className={`rounded-[1.8rem] border p-5 ${index === 1 ? 'border-white/12 bg-white/14' : 'border-white/12 bg-white/8'}`}>
                   <lane.icon className="h-5 w-5 text-[var(--slot4-gold)]" />
                   <h2 className="mt-3 text-2xl font-black tracking-[-0.03em]">{lane.title}</h2>
                   <p className="mt-2 text-sm leading-7 text-white/72">{lane.body}</p>
@@ -36,9 +36,9 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="rounded-[2.4rem] border border-[#d8e1ef] bg-white p-6 shadow-[0_24px_60px_rgba(16,36,79,0.08)] sm:p-8">
-            <h2 className="font-serif text-4xl font-bold tracking-[-0.04em] text-[#173c78]">{pagesContent.contact.formTitle}</h2>
-            <p className="mt-3 text-sm leading-7 text-[#6b7890]">Tell us what you want to build, feature, or improve and we will direct it to the right path.</p>
+          <div className="rounded-[2rem] border border-[#d4deef] bg-white p-6 shadow-[0_22px_55px_rgba(16,36,79,0.12)] sm:p-8">
+            <h2 className="font-serif text-4xl font-bold tracking-[-0.04em] text-[#10244f]">{pagesContent.contact.formTitle}</h2>
+            <p className="mt-3 text-sm leading-7 text-[#55637f]">Tell us what you want to build, feature, or improve and we will direct it to the right path.</p>
             <div className="mt-6">
               <EditableContactLeadForm />
             </div>
